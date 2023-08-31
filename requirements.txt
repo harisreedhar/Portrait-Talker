@@ -1,0 +1,4 @@
+onnxruntime-gpu==1.15.0
+opencv-python>=4.7.0.72
+opencv-python-headless>=4.7.0.72
+tqdm>=4.65.0
