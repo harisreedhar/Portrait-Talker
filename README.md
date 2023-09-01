@@ -1,6 +1,7 @@
 # Portrait-Talker
 
 Talking head animation
+(This project is still WIP. There are lot of TODOs)
 
 ## Installation
 
