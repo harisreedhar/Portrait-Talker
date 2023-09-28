@@ -101,6 +101,7 @@ dependencies:
   - zstd=1.5.5=hc292b87_0
   - pip:
     - coloredlogs==15.0.1
+    - dlib==19.24.2
     - flatbuffers==23.5.26
     - humanfriendly==10.0
     - onnxruntime-gpu==1.15.0

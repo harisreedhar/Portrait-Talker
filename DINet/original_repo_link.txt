@@ -1,0 +1,5 @@
+original repo:
+https://github.com/MRzzm/DINet
+
+optimized version:
+https://github.com/Elsaam2y/DINet_optimized
