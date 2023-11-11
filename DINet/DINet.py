@@ -273,7 +273,7 @@ class AdaAT(nn.Module):
             + translation
         )
         full_grid = torch.cat([trans_grid, grid_z.unsqueeze(-1)], -1)
-        trans_feature = F.grid_sample(feature_map.unsqueeze(1), full_grid, align_corners=True).squeeze(1)
+        trans_feature = F.grid_sample(feature_map.unsqueeze(1), full_grid).squeeze(1)
         return trans_feature
 
 
