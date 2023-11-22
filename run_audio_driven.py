@@ -101,6 +101,9 @@ class Demo():
             video_frame_path_list = glob.glob(os.path.join(temp_dir, "*.png"))
             video_frame_path_list.sort()
             video_landmark_data = get_landmarks(video_frame_path_list).astype(np.int32)
+            if self.args.landmark_smoothness > 0:
+                from scipy.ndimage import gaussian_filter1d
+                video_landmark_data = gaussian_filter1d(video_landmark_data, sigma=self.args.landmark_smoothness, axis=0, mode='nearest').astype(np.int32)
 
         elif is_image(self.args.source_path):
             image = cv2.imread(self.args.source_path)
@@ -219,6 +222,7 @@ if __name__ == '__main__':
     parser.add_argument("--driving_path", type=str, default='')
     parser.add_argument("--save_dir", type=str, default='./test/result')
     parser.add_argument("--mouth_region_size", type=int, default=256)
+    parser.add_argument("--landmark_smoothness", type=float, default=0)
     args = parser.parse_args()
 
     demo = Demo(args)
