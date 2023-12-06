@@ -12,7 +12,7 @@ from utils.retinaface import RetinaFace
 from utils.face_alignment import get_cropped_head
 
 
-LIA_PATH = "./pretrained_models/vox.pt"
+LIA_PATH = "./pretrained_models/vox512.pt"
 RETINAFACE_PATH = "./pretrained_models/det_10g.onnx"
 MASK = cv2.imread("./mask.jpg")
 
@@ -24,6 +24,7 @@ def paste_back(img, face, matrix):
     inv_restored = cv2.warpAffine(face, inverse_affine, (w, h))
     inv_restored = inv_restored.astype('float32')
     mask = MASK.copy().astype('float32') / 255
+    mask = cv2.resize(mask, (face_w, face_h))
     inv_mask = cv2.warpAffine(mask, inverse_affine, (w, h))
     img = inv_mask * inv_restored + (1 - inv_mask) * img
     return img.clip(0, 255).astype('uint8')
@@ -59,7 +60,7 @@ def process_driving(vid_path, size=256):
 class Demo(nn.Module):
     def __init__(self, args):
         super(Demo, self).__init__()
-        self.size = 256
+        self.size = 512
         self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
         print('[ loading model ]')
@@ -92,15 +93,6 @@ class Demo(nn.Module):
             h_start = self.gen.enc.enc_motion(h_start)
             for i in tqdm(range(self.driving.size(1))):
                 img_target = self.driving[:, i, :, :, :].to(self.device)
-                # if i == 0:
-                #     dummy_input = (self.source, img_target, h_start)
-                #     scripted_model = torch.jit.trace(self.gen, dummy_input)
-                #     torch.onnx.export(scripted_model,
-                #                     dummy_input,
-                #                     "lia_converted.onnx",
-                #                     verbose=True,
-                #                     input_names=["source", "driving", "start"],
-                #                     output_names=["output"])
                 img_recon = self.gen(self.source, img_target, h_start)
                 np_img_recon = img_recon.permute(0,2,3,1).cpu().numpy()[0]
                 np_img_recon = ((np_img_recon[:,:,::-1] + 1) / 2) * 255
@@ -116,7 +108,7 @@ if __name__ == '__main__':
     parser.add_argument("--source_path", type=str, default='')
     parser.add_argument("--driving_path", type=str, default='')
     parser.add_argument("--save_dir", type=str, default='./test/result')
-    parser.add_argument("--crop_scale", type=float, default=1.6)
+    parser.add_argument("--crop_scale", type=float, default=1.5)
     args = parser.parse_args()
 
     demo = Demo(args)

@@ -18,7 +18,7 @@ cd Portrait-Talker
 `put these models in Portrait-Talker/pretrained_models`
 
 - [det_10g.onnx](https://huggingface.co/bluefoxcreation/insightface-retinaface-arcface-model/resolve/main/det_10g.onnx)
-- [vox.pt](https://drive.google.com/uc?export=download&id=1cC2BGsbvJ_CBkoWdkv5mtZnCXZ5gS0Zy)
+- [vox512.pt](https://huggingface.co/bluefoxcreation/LIA-512/resolve/main/vox512.pt?download=true)
 - [shape_predictor_68_face_landmarks.dat](https://github.com/tzutalin/dlib-android/blob/master/data/shape_predictor_68_face_landmarks.dat)
 - [wav2vecDS.pt](https://huggingface.co/bluefoxcreation/DINet_unofficial/resolve/main/wav2vecDS.pt)
 - [clip_training_DINet_256mouth.pth](https://huggingface.co/bluefoxcreation/DINet_unofficial/resolve/main/clip_training_DINet_256mouth.pth)
